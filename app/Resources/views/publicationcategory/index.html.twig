@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Publicationcategories list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Publicationcategory</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for publicationCategory in publicationCategories %}
+            <tr>
+                <td><a href="{{ path('publicationcategory_show', { 'id': publicationCategory.id }) }}">{{ publicationCategory.id }}</a></td>
+                <td>{{ publicationCategory.publicationCategory }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('publicationcategory_show', { 'id': publicationCategory.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('publicationcategory_edit', { 'id': publicationCategory.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('publicationcategory_new') }}">Create a new publicationCategory</a>
+        </li>
+    </ul>
+{% endblock %}

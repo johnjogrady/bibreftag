@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Refs list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Publicationyear</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ref in refs %}
+            <tr>
+                <td><a href="{{ path('ref_show', { 'id': ref.id }) }}">{{ ref.id }}</a></td>
+                <td>{{ ref.name }}</td>
+                <td>{{ ref.publicationYear }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('ref_show', { 'id': ref.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ref_edit', { 'id': ref.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ref_new') }}">Create a new ref</a>
+        </li>
+    </ul>
+{% endblock %}

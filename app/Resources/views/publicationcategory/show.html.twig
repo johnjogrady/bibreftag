@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Publicationcategory</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ publicationCategory.id }}</td>
+            </tr>
+            <tr>
+                <th>Publicationcategory</th>
+                <td>{{ publicationCategory.publicationCategory }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('publicationcategory_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('publicationcategory_edit', { 'id': publicationCategory.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

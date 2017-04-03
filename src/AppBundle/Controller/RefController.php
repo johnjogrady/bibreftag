@@ -26,8 +26,12 @@ class RefController extends Controller
 
         $refs = $em->getRepository('AppBundle:Ref')->findAll();
 
+
+
+
         return $this->render('ref/index.html.twig', array(
             'refs' => $refs,
+
         ));
     }
 
@@ -66,9 +70,19 @@ class RefController extends Controller
     public function showAction(Ref $ref)
     {
         $deleteForm = $this->createDeleteForm($ref);
+        $em = $this->getDoctrine()->getManager();
+
+        $reftags = $em->getRepository('AppBundle:RefTag')->findByRefId($ref->getId());
+        $tags = $em->getRepository('AppBundle:Tag');
+
+        foreach ($reftags as  $reftag)
+        {
+            $reftags += $tags->findById($reftag->getTagId());
+        }
 
         return $this->render('ref/show.html.twig', array(
             'ref' => $ref,
+            'refTags'=>$reftags,
             'delete_form' => $deleteForm->createView(),
         ));
     }

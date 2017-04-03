@@ -29,13 +29,82 @@ class Tag
      */
     private $id;
 
-
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     private $tagName;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $confirmed;
+
+    /**
+     * @var date
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $lastEditDate;
+
+    /**
+     * @return date
+     */
+    public function getLastEditDate()
+    {
+        return $this->lastEditDate;
+    }
+
+    /**
+     * @param date $lastEditDate
+     */
+    public function setLastEditDate($lastEditDate)
+    {
+        $this->lastEditDate = $lastEditDate;
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public function isConfirmed()
+    {
+        return $this->confirmed;
+    }
+
+    /**
+     * @param boolean $confirmed
+     */
+    public function setConfirmed($confirmed)
+    {
+        $this->confirmed = $confirmed;
+    }
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="numVotes", type="integer")
+     */
+    private $numVotes;
+
+    /**
+     * @return int
+     */
+    public function getNumVotes()
+    {
+        return $this->numVotes;
+    }
+
+    /**
+     * @param int $numVotes
+     */
+    public function setNumVotes($numVotes)
+    {
+        $this->numVotes = $numVotes;
+    }
 
     /**
      * Get id
@@ -67,6 +136,21 @@ class Tag
      * @return string
      */
     public function getTagName()
+    {
+        return $this->tagName;
+    }
+
+    /**
+     * Get confirmed
+     *
+     * @return boolean
+     */
+    public function getConfirmed()
+    {
+        return $this->confirmed;
+    }
+
+    public function __toString()
     {
         return $this->tagName;
     }

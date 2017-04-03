@@ -5,12 +5,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Publication;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Publication controller.
- *
- * @Route("publication")
+ * @Security("is_granted('ROLE_ADMIN')")
+ * @Route("/admin/publication")
  */
 class PublicationController extends Controller
 {
@@ -26,7 +27,7 @@ class PublicationController extends Controller
 
         $publications = $em->getRepository('AppBundle:Publication')->findAll();
 
-        return $this->render('publication/index.html.twig', array(
+        return $this->render('admin/publication/index.html.twig', array(
             'publications' => $publications,
         ));
     }
@@ -48,10 +49,10 @@ class PublicationController extends Controller
             $em->persist($publication);
             $em->flush($publication);
 
-            return $this->redirectToRoute('publication_show', array('id' => $publication->getId()));
+            return $this->redirectToRoute('admin/publication_show', array('id' => $publication->getId()));
         }
 
-        return $this->render('publication/new.html.twig', array(
+        return $this->render('admin/publication/new.html.twig', array(
             'publication' => $publication,
             'form' => $form->createView(),
         ));
@@ -67,7 +68,7 @@ class PublicationController extends Controller
     {
         $deleteForm = $this->createDeleteForm($publication);
 
-        return $this->render('publication/show.html.twig', array(
+        return $this->render('admin/publication/show.html.twig', array(
             'publication' => $publication,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -91,7 +92,7 @@ class PublicationController extends Controller
             return $this->redirectToRoute('publication_edit', array('id' => $publication->getId()));
         }
 
-        return $this->render('publication/edit.html.twig', array(
+        return $this->render('admin/publication/edit.html.twig', array(
             'publication' => $publication,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

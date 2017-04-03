@@ -1,0 +1,26 @@
+
+{% extends "base.html.twig" %}
+
+{% block title %}Index{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    <h1>Index</h1>
+    </p>
+{% endblock %}
+{% block body %}
+    <div>
+        <p>
+                 This is the admin login page
+        <div>    Welcome {{ app.user ? app.user.email : 'Anon User' }}</div>
+
+        <a href="{{ path('publication_index') }}">Manage Publications </a>
+
+
+
+
+        </p>
+            </div>
+
+
+{% endblock %}

@@ -48,30 +48,6 @@ class Author
     }
 
     /**
-     * Set tagName
-     *
-     * @param string $tagName
-     *
-     * @return Tag
-     */
-    public function setTagName($tagName)
-    {
-        $this->tagName = $tagName;
-
-        return $this;
-    }
-
-    /**
-     * Get tagName
-     *
-     * @return string
-     */
-    public function getTagName()
-    {
-        return $this->tagName;
-    }
-
-    /**
      * Set name
      *
      * @param string $name
@@ -92,6 +68,6 @@ class Author
      */
     public function getName()
     {
-        return $this->Name;
+        return $this->name;
     }
 }

@@ -14,9 +14,30 @@
                 <td>{{ ref.name }}</td>
             </tr>
             <tr>
+                <th>Description</th>
+                <td>{{ ref.description }}</td>
+            </tr>
+            <tr>
                 <th>Publicationyear</th>
                 <td>{{ ref.publicationYear }}</td>
             </tr>
+
+
+            {% for refTag in refTags%}
+
+            <tr>
+                <th>
+                    Tags:
+                </th>
+                    <td>
+                        {{ refTag.tagId.TagName}}
+                        <a href="{{ path('reftag_delete', { 'id': refTag.id }) }}">Remove</a>
+                    </td>
+            {% endfor %}
+                <a href="{{ path('reftag_new', { 'ref': ref.id }) }}">Add Tag to this ref</a>
+
+            </tr>
+
         </tbody>
     </table>
 

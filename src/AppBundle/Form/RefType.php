@@ -13,7 +13,7 @@ class RefType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('publicationYear')->add('publicationId');
+        $builder->add('name')->add('description')->add('publicationYear')->add('publicationId');
     }
     
     /**

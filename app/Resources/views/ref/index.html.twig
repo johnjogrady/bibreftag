@@ -2,13 +2,15 @@
 
 {% block body %}
     <h1>Refs list</h1>
-
+{{ dump() }}
     <table>
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Description</th>
                 <th>Publicationyear</th>
+                <th>Tags</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -17,6 +19,7 @@
             <tr>
                 <td><a href="{{ path('ref_show', { 'id': ref.id }) }}">{{ ref.id }}</a></td>
                 <td>{{ ref.name }}</td>
+                <td>{{ ref.description }}</td>
                 <td>{{ ref.publicationYear }}</td>
                 <td>
                     <ul>

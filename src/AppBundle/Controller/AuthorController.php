@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Author;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ class AuthorController extends Controller
      * Lists all author entities.
      *
      * @Route("/", name="author_index")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      */
     public function indexAction()
@@ -25,6 +27,9 @@ class AuthorController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $authors = $em->getRepository('AppBundle:Author')->findAll();
+        $author=$em->getRepository('AppBundle:Author')->find(1);
+
+
 
         return $this->render('author/index.html.twig', array(
             'authors' => $authors,

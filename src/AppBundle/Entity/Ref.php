@@ -34,7 +34,30 @@ class Ref
      *
      * @ORM\Column(type="string")
      */
-    private $name;
+    private $refName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $description;
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 
     /**
      * @var string
@@ -75,7 +98,7 @@ class Ref
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->refName = $name;
 
         return $this;
     }
@@ -87,7 +110,7 @@ class Ref
      */
     public function getName()
     {
-        return $this->name;
+        return $this->refName;
     }
 
     /**
@@ -136,5 +159,34 @@ class Ref
     public function getPublicationId()
     {
         return $this->publicationId;
+    }
+
+    public function __toString()
+    {
+        return $this->refName;
+    }
+
+    /**
+     * Set refName
+     *
+     * @param string $refName
+     *
+     * @return Ref
+     */
+    public function setRefName($refName)
+    {
+        $this->refName = $refName;
+
+        return $this;
+    }
+
+    /**
+     * Get refName
+     *
+     * @return string
+     */
+    public function getRefName()
+    {
+        return $this->refName;
     }
 }

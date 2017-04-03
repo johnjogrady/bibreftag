@@ -3,9 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Tag;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Tag controller.
@@ -28,8 +32,73 @@ class TagController extends Controller
 
         return $this->render('tag/index.html.twig', array(
             'tags' => $tags,
+            'description'=>'All Tags'
+
         ));
     }
+
+    /**
+     * Lists all tag entities which match query term passed in as request
+     *
+     * @Route("/tag_search", name="tag_search")
+     * @Method("GET")
+     */
+    public function searchAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $request = ($_REQUEST);
+        $queryTerm=$request['query'];
+        $tags= $em->createQuery("SELECT o FROM AppBundle:Tag o WHERE o.tagName like :searchterm")
+            ->setParameter('searchterm', '%'.$queryTerm.'%')->getResult();
+        return $this->render('tag/index.html.twig', array(
+            'tags' => $tags,
+            'description'=>'Tags containing: '.$queryTerm
+
+        ));
+    }
+
+    /**
+     * Lists all tag entities which match query term passed in as request
+     *
+     * @Route("/tag_search_by_date", name="tag_search_by_date")
+     * @Method("GET")
+     */
+    public function searchbyDateAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $request = ($_REQUEST);
+        $fromDate = new \DateTime($request['fromDate']);
+        $toDate = new \DateTime($request['toDate']);
+
+        $tags= $em->createQuery("SELECT o FROM AppBundle:Tag o WHERE o.lastEditDate >= :fromDate AND o.lastEditDate <= :toDate")
+            ->setParameter('fromDate', $fromDate)
+            ->setParameter('toDate', $toDate)
+            ->getResult();
+        return $this->render('tag/index.html.twig', array(
+            'tags' => $tags,
+            'description'=>'Tags entered between: '.$fromDate->format('d-m-Y').' and '.$toDate->format('d-m-Y')
+
+        ));
+    }
+    /**
+     * Lists all proposed tag entities.
+     *
+     * @Route("/proposedindex", name="tag_proposedindex")
+     * @Method("GET")
+     */
+    public function proposedIndexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $criteria = array('confirmed' => 'true');
+
+        $tags = $em->getRepository('AppBundle:Tag')->findBy($criteria);
+
+        return $this->render('tag/index.html.twig', array(
+            'tags' => $tags,
+            'description'=>'Pending Tags'
+        ));
+    }
+
 
     /**
      * Creates a new tag entity.
@@ -98,6 +167,89 @@ class TagController extends Controller
         ));
     }
 
+
+    /**
+     * Displays a form to edit an existing tag entity.
+     *
+     * @Route("/{id}/upvote", name="tag_upvote")
+     * @Method({"GET", "POST"})
+     */
+    public function upVoteAction(Request $request, Tag $tag)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $voteMultiplier=$this->checkUserAuthentication();
+        //var_dump($voteMultiplier);
+        $tag->setNumVotes($tag->getNumVotes()+1*$voteMultiplier);
+        $this->getDoctrine()->getManager()->flush();
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        return $this->render('tag/index.html.twig', array(
+            'tags' => $tags,
+            'description'=>''
+
+
+        ));
+        }
+
+    /**
+     * Displays a form to edit an existing tag entity.
+     *
+     * @Route("/{id}/confirm", name="tag_confirm")
+     * @Method({"GET", "POST"})
+     */
+    public function confirmAction(Request $request, Tag $tag)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $tag->setConfirmed(true);
+        $this->getDoctrine()->getManager()->flush();
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        return $this->render('tag/index.html.twig', array(
+            'tags' => $tags,
+            'description'=>'Tag Confirmed'
+
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing tag entity.
+     *
+     * @Route("/{id}/unconfirm", name="tag_unconfirm")
+     * @Method({"GET", "POST"})
+     */
+    public function unConfirmAction(Request $request, Tag $tag)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $tag->setConfirmed(false);
+        $this->getDoctrine()->getManager()->flush();
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        return $this->render('tag/index.html.twig', array(
+            'tags' => $tags,
+            'description'=>'Tag Set to Not Confirmed'
+
+        ));
+    }
+
+
+    /**
+     * Displays a form to edit an existing tag entity.
+     *
+     * @Route("/{id}/downvote", name="tag_downvote")
+     * @Method({"GET", "POST"})
+     */
+    public function downVoteAction(Request $request, Tag $tag)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $voteMultiplier=$this->checkUserAuthentication();
+        //var_dump($voteMultiplier);
+        $tag->setNumVotes($tag->getNumVotes()-1*$voteMultiplier);
+        $this->getDoctrine()->getManager()->flush();
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        return $this->render('tag/index.html.twig', array(
+            'tags' => $tags,
+            'description'=>''
+
+        ));
+    }
+
     /**
      * Deletes a tag entity.
      *
@@ -132,5 +284,14 @@ class TagController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    private function checkUserAuthentication()
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+            {
+            return $votemultiplier = 1;
+            }
+        else return $votemultiplier = 5;
     }
 }

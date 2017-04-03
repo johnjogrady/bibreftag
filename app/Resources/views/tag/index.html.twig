@@ -1,14 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Tags list</h1>
-
+    <h3>You searched for: {{ description }}</h3>
+    <div class="search-bar">
+        <form method="GET" action="{{ path('tag_search') }}">
+            <label>Search by Name</label>
+            <input type="search" name="query" placeholder="Search Tags By Name" autocomplete="on" class="search-input">
+            <input type="submit" value="Filter by Name" class="btn btn-info btn-sm">
+        </form>
+        <form method="GET" action="{{ path('tag_search_by_date') }}">
+            <label>Search by Date</label>
+            <input type="date"  name="fromDate" placeholder="From Date" >
+            <input type="date"  name="toDate" placeholder="To Date" >
+            <input type="submit" value="Filter by Date" class="btn btn-info btn-sm">
+            <a href="{{ path('tag_index') }} " class="btn btn-info btn-sm"
+               role="button">Clear All Filters</a>
+        </form>
+    </div>
+<div class="container">
     <table>
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Tagname</th>
-                <th>Actions</th>
+                <th>Confirmation Status</th>
+                <th>Last edited</th>
+                <th>Show</th>
+                <th>Edit</th>
+                <th>Votes</th>
+                <th>Up Vote</th>
+                <th>Down Vote</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -16,24 +38,58 @@
             <tr>
                 <td><a href="{{ path('tag_show', { 'id': tag.id }) }}">{{ tag.id }}</a></td>
                 <td>{{ tag.tagName }}</td>
+                <td>{% if tag.confirmed %}
+                    Confirmed
+                    {% else %}
+                    Pending
+                    {% endif %}
+                </td>
+                <td>{{ tag.lastEditDate|date('Y-m-d')}}
+                </td>
+
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('tag_show', { 'id': tag.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('tag_edit', { 'id': tag.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <a href="{{ path('tag_show', { 'id': tag.id }) }}" class="btn btn-info btn-sm"
+                       role="button">show</a>
+                </td>
+                <td>
+                    <a href="{{ path('tag_edit', { 'id': tag.id }) }}" class="btn btn-info btn-sm"
+                       role="button">edit</a>
+                </td>
+                <td>
+                    Votes:{{ tag.numVotes }}
+                </td>
+                <td>
+                    <a href="{{ path('tag_upvote', { 'id': tag.id }) }}" class="glyphicon glyphicon glyphicon-ok"></a>
+                </td>
+                <td>
+                    <a href="{{ path('tag_downvote', { 'id': tag.id }) }}" class="glyphicon glyphicon glyphicon-remove"></a>
+                </td>
+                <td>
+                    {% if tag.confirmed %}
+                    <a href="{{ path('tag_unconfirm', { 'id': tag.id }) }}">UnConfirm</a>
+                    {% else %}
+                    <a href="{{ path('tag_confirm', { 'id': tag.id }) }}">Confirm</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+</div>
 
     <ul>
         <li>
-            <a href="{{ path('tag_new') }}">Create a new tag</a>
+            <a href="{{ path('tag_new') }}" class="btn btn-info btn-sm"
+               role="button">Create a new candidate tag</a>
         </li>
+        <li>
+        <a href="{{ path('tag_proposedindex') }}" class="btn btn-info btn-sm"
+           role="button">View Pending Candidate Tags</a>
+        </li>
+        <li>
+            <a href="{{ path('tag_index') }}" class="btn btn-info btn-sm"
+               role="button">View All Tags</a>
+        </li>
+
     </ul>
 {% endblock %}

@@ -7,6 +7,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Author</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Publicationyear</th>
@@ -18,6 +19,7 @@
         {% for ref in refs %}
             <tr>
                 <td><a href="{{ path('ref_show', { 'id': ref.id }) }}">{{ ref.id }}</a></td>
+                <td>{{ ref.author.name }}</td>
                 <td>{{ ref.name }}</td>
                 <td>{{ ref.description }}</td>
                 <td>{{ ref.publicationYear }}</td>

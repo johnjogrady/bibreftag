@@ -80,6 +80,12 @@ class Ref
     private $publicationId;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Author")
+     * @ORM\JoinColumn(name="publication_id", referencedColumnName="id")
+     */
+    private $author;
+
+    /**
      * Get id
      *
      * @return integer
@@ -188,5 +194,53 @@ class Ref
     public function getRefName()
     {
         return $this->refName;
+    }
+
+    /**
+     * Set authorId
+     *
+     * @param \AppBundle\Entity\Author $author
+     *
+     * @return Ref
+     */
+    public function setAuthorId(\AppBundle\Entity\Author $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get authorId
+     *
+     * @return \AppBundle\Entity\Author
+     */
+    public function getAuthorId()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \AppBundle\Entity\Author $author
+     *
+     * @return Ref
+     */
+    public function setAuthor(\AppBundle\Entity\Author $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \AppBundle\Entity\Author
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }

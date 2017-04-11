@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
- * @UniqueEntity(fields={"email"}, message="It looks like you already have an account!")
+ * @UniqueEntity(fields={"email"}, message="There is already an account registered with that email")
  */
 class User implements UserInterface
 {
@@ -21,6 +21,38 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
 
     /**
      * @Assert\NotBlank()
@@ -37,7 +69,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * A non-persisted field that's used to create the encoded password.
      * @Assert\NotBlank(groups={"Registration"})
      *
      * @var string
@@ -103,8 +134,7 @@ class User implements UserInterface
     public function setPlainPassword($plainPassword)
     {
         $this->plainPassword = $plainPassword;
-        // forces the object to look "dirty" to Doctrine. Avoids
-        // Doctrine *not* saving this entity, if only plainPassword changes
+        // forces the object to look "dirty" to Doctrine. Avoids saving only if plain password changes
         $this->password = null;
     }
 

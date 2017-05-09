@@ -38,6 +38,52 @@ class Author
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $collegeName;
+
+    /**
+     * @return string
+     */
+    public function getCollegeName()
+    {
+        return $this->collegeName;
+    }
+
+    /**
+     * @param string $collegeName
+     */
+    public function setCollegeName($collegeName)
+    {
+        $this->collegeName = $collegeName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGitHubRepo()
+    {
+        return $this->gitHubRepo;
+    }
+
+    /**
+     * @param string $gitHubRepo
+     */
+    public function setGitHubRepo($gitHubRepo)
+    {
+        $this->gitHubRepo = $gitHubRepo;
+    }
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $gitHubRepo;
+
+    /**
      * Get id
      *
      * @return integer

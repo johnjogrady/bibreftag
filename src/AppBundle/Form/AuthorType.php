@@ -13,7 +13,7 @@ class AuthorType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('Name');
+        $builder->add('name')->add('collegeName')->add('GitHubRepo');
     }
     
     /**

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
+
     <h1>Ref</h1>
 
     <table>
@@ -9,6 +9,18 @@
                 <th>Id</th>
                 <td>{{ ref.id }}</td>
             </tr>
+
+            <tr>
+                <th>Publication Name</th>
+                <td>{{ ref.publicationId.name}}</td>
+            </tr>
+
+            <tr>
+                <th>Author</th>
+                <td>{{ ref.author.name}}</td>
+            </tr>
+
+
             <tr>
                 <th>Name</th>
                 <td>{{ ref.name }}</td>
@@ -21,10 +33,16 @@
                 <th>Publicationyear</th>
                 <td>{{ ref.publicationYear }}</td>
             </tr>
-
             <tr>
-                <th>Publicationyear</th>
-                <td>{{ ref.author.name}}</td>
+                <th>Last Edit Date</th>
+                <td>{{ref.lastEditDate|date('Y-m-d')}}
+
+            </tr>
+
+
+                <tr>
+                <th>Created By</th>
+                <td>{{ ref.ownerId}}</td>
             </tr>
 
 
@@ -45,12 +63,47 @@
 
         </tbody>
     </table>
+<h2>Referenced In</h2>
+
+{% for bibRef in bibRefs%}
+
+<table>
+<tr>
+   <td> Sequence of Ref in Bib:
+        {{ bibRef.sequenceId}}
+    </td>
+
+    <td>
+        {{ bibRef.bibId.bibName}}
+    </td>
+    <td> Private Bib:
+    {% if bibRef.bibId.isPrivate %}Yes{% else %}No{% endif %}</td>
+    <td>Owner: {{ bibRef.bibId.OwnerId.userName }}</td>
+    <td>
+        <a href="{{ path('bibref_delete', { 'id': bibRef.id }) }}">Remove Ref from Bib</a>
+    </td>
+    <td>
+        <a href="{{ path('ref_edit', { 'id': bibRef.refId.Id }) }}">Edit Ref in Bib</a>
+    </td>
+    <td>
+        <a href="{{ path('ref_show', { 'id': bibRef.bibId.Id }) }}">Go to Bib</a>
+    </td>
+    {% endfor %}
+    <a href="{{ path('bibref_new', { 'ref': ref.id }) }}">Add to another bib</a>
+
+    </tr>
+    </table>
 
     <ul>
         <li>
             <a href="{{ path('ref_index') }}">Back to the list</a>
         </li>
         <li>
+
+            <a href="{{ path('ref_edit', { 'id': ref.id }) }}">Edit</a>
+        </li>
+        <li>
+
             <a href="{{ path('ref_edit', { 'id': ref.id }) }}">Edit</a>
         </li>
         <li>

@@ -28,6 +28,28 @@ class Ref
      */
     private $id;
 
+    /**
+     * @var date
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $lastEditDate;
+
+    /**
+     * @return mixed
+     */
+    public function getLastEditDate()
+    {
+        return $this->lastEditDate;
+    }
+
+    /**
+     * @param mixed $lastEditDate
+     */
+    public function setLastEditDate($lastEditDate)
+    {
+        $this->lastEditDate = $lastEditDate;
+    }
 
     /**
      * @var string
@@ -42,6 +64,76 @@ class Ref
      * @ORM\Column(type="string")
      */
     private $description;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $isPublic;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $isConfirmed;
+
+    /**
+     * @return boolean
+     */
+    public function isIsConfirmed()
+    {
+        return $this->isConfirmed;
+    }
+
+    /**
+     * @param boolean $isConfirmed
+     */
+    public function setIsConfirmed($isConfirmed)
+    {
+        $this->isConfirmed = $isConfirmed;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsPublic()
+    {
+        return $this->isPublic;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     */
+    private $ownerId;
+
+
+    /**
+     * @return mixed
+     */
+    public function getOwnerId()
+    {
+        return $this->ownerId;
+    }
+
+    /**
+     * @param mixed $ownerId
+     */
+    public function setOwnerId($ownerId)
+    {
+        $this->ownerId = $ownerId;
+    }
+
+
+    /**
+     * @param boolean $isPublic
+     */
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = $isPublic;
+    }
 
     /**
      * @return string
@@ -81,9 +173,25 @@ class Ref
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Author")
-     * @ORM\JoinColumn(name="publication_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
     private $author;
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
 
     /**
      * Get id
@@ -197,50 +305,12 @@ class Ref
     }
 
     /**
-     * Set authorId
+     * Get isPublic
      *
-     * @param \AppBundle\Entity\Author $author
-     *
-     * @return Ref
+     * @return boolean
      */
-    public function setAuthorId(\AppBundle\Entity\Author $author = null)
+    public function getIsPublic()
     {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get authorId
-     *
-     * @return \AppBundle\Entity\Author
-     */
-    public function getAuthorId()
-    {
-        return $this->author;
-    }
-
-    /**
-     * Set author
-     *
-     * @param \AppBundle\Entity\Author $author
-     *
-     * @return Ref
-     */
-    public function setAuthor(\AppBundle\Entity\Author $author = null)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return \AppBundle\Entity\Author
-     */
-    public function getAuthor()
-    {
-        return $this->author;
+        return $this->isPublic;
     }
 }

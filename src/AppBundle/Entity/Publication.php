@@ -32,6 +32,29 @@ class Publication
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $publicationLocation;
+
+    /**
+     * @return string
+     */
+    public function getPublicationLocation()
+    {
+        return $this->publicationLocation;
+    }
+
+    /**
+     * @param string $publicationLocation
+     */
+    public function setPublicationLocation($publicationLocation)
+    {
+        $this->publicationLocation = $publicationLocation;
+    }
+
+    /**
      * Get id
      *
      * @return integer

@@ -23,6 +23,63 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $username;
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username= $username;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $userPic;
+
+    /**
+     * @return mixed
+     */
+    public function getUserPic()
+    {
+        return $this->userPic;
+    }
+
+    /**
+     * @param mixed $userPic
+     */
+    public function setUserPic($userPic)
+    {
+        $this->userPic = $userPic;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param mixed $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -37,6 +94,7 @@ class User implements UserInterface
     {
         $this->id = $id;
     }
+
 
     /**
      * @return mixed
@@ -90,11 +148,6 @@ class User implements UserInterface
         throw new \Exception('You probably never need to call it, but UserInterface enforce you to have this method');
     }
 
-    // needed by the security system
-    public function getUsername()
-    {
-        return $this->email;
-    }
 
     public function getPassword()
     {
@@ -141,6 +194,8 @@ class User implements UserInterface
 
     public function __toString()
     {
-        return strval($this->email);
+        return strval($this->username);
     }
+
+
 }

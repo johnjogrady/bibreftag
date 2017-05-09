@@ -2,27 +2,52 @@
 
 {% block body %}
     <h1>Refs list</h1>
-{{ dump() }}
+<div class="search-bar">
+    <form method="GET" action="{{ path('ref_search') }}">
+        <label>Search by Name</label>
+        <input type="search" name="query" placeholder="Search Refs By Name" autocomplete="on" class="search-input">
+        <input type="submit" value="Filter by Name" class="btn btn-info btn-sm">
+    </form>
+
+    <form method="GET" action="{{ path('ref_search_by_date') }}">
+        <label>Search by Date</label>
+        <input type="date"  name="fromDate" placeholder="From Date" >
+        <input type="date"  name="toDate" placeholder="To Date" >
+        <input type="submit" value="Filter by Date" class="btn btn-info btn-sm">
+        <a href="{{ path('ref_index') }} " class="btn btn-info btn-sm"
+           role="button">Clear All Filters</a>
+    </form>
     <table>
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Ref Owned By</th>
+                <th>Ref Title</th>
+                <th>Published In</th>
                 <th>Author</th>
-                <th>Name</th>
                 <th>Description</th>
-                <th>Publicationyear</th>
-                <th>Tags</th>
-                <th>Actions</th>
+                <th>Publication Year</th>
+                <th>Last Edited</th>
+                <th>Publicly Available</th>
+
             </tr>
         </thead>
         <tbody>
         {% for ref in refs %}
             <tr>
                 <td><a href="{{ path('ref_show', { 'id': ref.id }) }}">{{ ref.id }}</a></td>
-                <td>{{ ref.author.name }}</td>
+                <td>{{ ref.ownerId }}</td>
                 <td>{{ ref.name }}</td>
+
+                <td>{{ ref.publicationId.name}}</td>
+                <td>{{ ref.author.name}}</td>
                 <td>{{ ref.description }}</td>
                 <td>{{ ref.publicationYear }}</td>
+                <td>{{ref.lastEditDate|date('Y-m-d')}}
+                <td>{{ ref.isPublic ? 'Yes' : 'No' }}</td>
+
+
+                <td></td>
                 <td>
                     <ul>
                         <li>
@@ -32,6 +57,7 @@
                             <a href="{{ path('ref_edit', { 'id': ref.id }) }}">edit</a>
                         </li>
                     </ul>
+                    </ul>
                 </td>
             </tr>
         {% endfor %}
@@ -40,7 +66,8 @@
 
     <ul>
         <li>
-            <a href="{{ path('ref_new') }}">Create a new ref</a>
+            <a href="{{ path('ref_submit') }}">Submit a new ref for review by Site Moderator</a>
         </li>
     </ul>
+    </div>
 {% endblock %}

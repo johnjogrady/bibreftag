@@ -7,16 +7,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RefType extends AbstractType
+class RefSubmitType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('description')->add('publicationYear')->add('isPublic')->
-        add('publicationId')->
-             add('ownerId')->add('isConfirmed')->add('author')->add('lastEditDate');
+        $builder->add('name')->add('description')->add('publicationYear')->
+        add('publicationId')->add('author');
     }
     
     /**

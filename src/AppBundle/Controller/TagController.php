@@ -127,6 +127,33 @@ class TagController extends Controller
     }
 
     /**
+     * Creates a new tag entity.
+     *
+     * @Route("/propose", name="tag_propose")
+     * @Method({"GET", "POST"})
+     */
+    public function proposeAction(Request $request)
+    {
+        $tag = new Tag();
+        $form = $this->createForm('AppBundle\Form\TagProposeType', $tag);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $tag->setConfirmed(false);
+            $tag->setNumVotes(0);
+            $em->persist($tag);
+            $em->flush($tag);
+
+            return $this->redirectToRoute('tag_show', array('id' => $tag->getId()));
+        }
+
+        return $this->render('tag/propose.html.twig', array(
+            'tag' => $tag,
+            'form' => $form->createView(),
+        ));
+    }
+    /**
      * Finds and displays a tag entity.
      *
      * @Route("/{id}", name="tag_show")

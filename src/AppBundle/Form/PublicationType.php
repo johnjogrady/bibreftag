@@ -13,7 +13,7 @@ class PublicationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('publicationCategory');
+        $builder->add('name')->add('publicationCategory')->add('publicationLocation');
     }
     
     /**

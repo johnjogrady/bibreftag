@@ -6,6 +6,7 @@
 
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -13,13 +14,36 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <p>Logged in under username: {{ app.user.username }}
-        <a href="{{ path('security_logout') }}" class="btn btn-info btn-sm" role="button">Logout</a></p>
-    {% else %}
-    <p>You are not logged in. Click to
-        <a href="{{ path('security_login') }}" class="btn btn-info btn-sm" role="button">login</a></p>
-    {% endif%}
+
+    <div class="navbar">
+
+        <a href="{{ path('app_default_admin') }}">Admin</a>
+
+
+            <a href="{{ path('author_index') }}" >Authors</a>
+            <a href="{{ path('bib_index') }}" >Bibs</a>
+            <a href="{{ path('publication_index') }}" >Publications</a>
+            <a href="{{ path('ref_index') }}" >Public References</a>
+            <a href="{{ path('tag_index') }}" >Tags</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('approve_ref_index') }}" >Approve References</a>
+            {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <a href="{{ path('security_logout') }}"></a>
+                <a class="btn btn-default btn">User:{{ app.user }}</a>
+            <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
+                <a href="{{ path('myref_index') }}" >My References</a>
+
+
+                {% else %}
+            <a href="{{ path('security_login') }}">
+                Login</a>
+                <a href="{{ path('user_register') }}">
+                    Register</a>
+
+                {% endif %}
+        <span></span>
+    </div>
 
         {% block body %}
             <div class="main-content">
@@ -27,8 +51,40 @@
                 <div class="alert alert-success">
                     {{ msg }}
                 </div>
+
+
+                    {% if is_granted('ROLE_ADMIN') %}
+
+                        <a href="{{ path('admin_index') }}">
+
+                            <img src="/images/user.png" alt="user" height="32" width="32"></a>
+
+                        <a href="{{ path('admin_index') }}" class="btn btn-default" role="button">Admin</a>
+                    {% endif %}
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <a href="{{ path('security_logout') }}">
+                            <a class="btn btn-default btn">User:{{ app.user }}</a>
+                            <img src="/images/logout.png" alt="customer" height="32" width="32"></a>
+                        <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
+
+                    {% else %}
+
+                    {% endif %}
+                    <span></span>
+                </div>
             {% endfor %}
-            </div>{% endblock %}
+            </div>
+<div>
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert-danger" role="alert">
+                    <strong>{{ flashMessage }}</strong>
+                </div>
+            {% endfor %}
+            {% for flashNotice in app.session.flashbag.get('notice') %}
+                <div class="alert-success" role="alert">
+                    <strong>{{ flashNotice }}</strong>
+                </div>
+            {% endfor %}{% endblock %}
 
 
         {% block javascripts %}
@@ -42,5 +98,6 @@
                 } );
             </script>
         {% endblock %}
+    </div>
     </body>
 </html>

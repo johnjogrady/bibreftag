@@ -19,17 +19,13 @@ class AuthorController extends Controller
      * Lists all author entities.
      *
      * @Route("/", name="author_index")
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Method("GET")
+    * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
         $authors = $em->getRepository('AppBundle:Author')->findAll();
-        $author=$em->getRepository('AppBundle:Author')->find(1);
-
-
 
         return $this->render('author/index.html.twig', array(
             'authors' => $authors,
@@ -50,6 +46,7 @@ class AuthorController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            var_dump($author);
             $em->persist($author);
             $em->flush($author);
 

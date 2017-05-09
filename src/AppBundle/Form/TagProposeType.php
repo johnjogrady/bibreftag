@@ -2,22 +2,24 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RefType extends AbstractType
+class TagProposeType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('description')->add('publicationYear')->add('isPublic')->
-        add('publicationId')->
-             add('ownerId')->add('isConfirmed')->add('author')->add('lastEditDate');
+        $builder->add('tagName')->add('confirmed', HiddenType::class, array(
+            'data' => false));
     }
+
+
     
     /**
      * {@inheritdoc}
@@ -25,8 +27,7 @@ class RefType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Ref',
-            'author' => Null
+            'data_class' => 'AppBundle\Entity\Tag'
         ));
     }
 
@@ -35,7 +36,7 @@ class RefType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_ref';
+        return 'appbundle_tag';
     }
 
 

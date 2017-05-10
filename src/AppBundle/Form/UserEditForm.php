@@ -24,7 +24,7 @@ class UserEditForm extends AbstractType
         $builder
             ->add('email', EmailType::class)
             ->add('enabled', CheckboxType::class)
-
+            ->add('isPrivate', CheckboxType::class)
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class
             ])

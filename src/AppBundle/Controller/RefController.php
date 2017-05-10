@@ -88,7 +88,7 @@ class RefController extends Controller
      * @Route("ref")
      */
     /**
-     * Lists all public ref entities.
+     * Lists all public ref entities. for user
      *
      * @Route("/ref/my", name="myref_index")
      * @Method("GET")

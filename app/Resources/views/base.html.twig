@@ -21,6 +21,7 @@
 
 
             <a href="{{ path('author_index') }}" >Authors</a>
+        <a href="{{ path('user_index') }}" >User Profiles</a>
             <a href="{{ path('bib_index') }}" >Bibs</a>
             <a href="{{ path('publication_index') }}" >Publications</a>
             <a href="{{ path('ref_index') }}" >Public References</a>
@@ -33,6 +34,8 @@
                 <a class="btn btn-default btn">User:{{ app.user }}</a>
             <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
                 <a href="{{ path('myref_index') }}" >My References</a>
+            <a href="{{ path('tag_my') }}" >My Tags</a>
+            <a href="{{ path('bib_my') }}" >My Bibs</a>
 
 
                 {% else %}

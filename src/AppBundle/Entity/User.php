@@ -28,6 +28,25 @@ class User implements UserInterface
     private $enabled;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPrivate;
+
+    /**
+ * @return mixed
+ */
+public function getIsPrivate()
+{
+    return $this->isPrivate;
+}/**
+ * @param mixed $isPrivate
+ */
+public function setIsPrivate($isPrivate)
+{
+    $this->isPrivate = $isPrivate;
+}
+
+    /**
      * @ORM\Column(type="string")
      */
     private $username;

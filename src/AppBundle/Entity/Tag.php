@@ -43,6 +43,53 @@ class Tag
      */
     private $confirmed;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     */
+    private $ownerId;
+
+    /**
+     * @return mixed
+     */
+    public function getOwnerId()
+    {
+        return $this->ownerId;
+    }
+
+    /**
+     * @param mixed $ownerId
+     */
+    public function setOwnerId($ownerId)
+    {
+        $this->ownerId = $ownerId;
+    }
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $isPrivate;
+
+    /**
+     * @return boolean
+     */
+    public function isIsPrivate()
+    {
+        return $this->isPrivate;
+    }
+
+    /**
+     * @param boolean $isPrivate
+     */
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = $isPrivate;
+    }
+
+
     /**
      * @var date
      *
@@ -74,6 +121,9 @@ class Tag
     {
         return $this->confirmed;
     }
+
+
+
 
     /**
      * @param boolean $confirmed

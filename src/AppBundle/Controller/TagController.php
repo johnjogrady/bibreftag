@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -28,7 +29,7 @@ class TagController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        $tags = $em->getRepository('AppBundle:Tag')->findByIsPrivate(false);
 
         return $this->render('tag/index.html.twig', array(
             'tags' => $tags,
@@ -37,6 +38,29 @@ class TagController extends Controller
         ));
     }
 
+
+    /**
+     * Lists all tag entities.for user
+     *
+     * @Route("/my", name="tag_my")
+     * @Method("GET")
+     */
+    public function myAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $authenticationUtils = $this->get('security.authentication_utils')->getLastUsername();
+        $user = $em->getRepository('AppBundle:User')->findByEmail($authenticationUtils);
+        $thisUser = $user[0];
+
+        $tags = $em->getRepository('AppBundle:Tag')->findByOwnerId($thisUser);
+
+
+        return $this->render('tag/index.html.twig', array(
+            'tags' => $tags,
+            'description'=>'All Tags'
+
+        ));
+    }
     /**
      * Lists all tag entities which match query term passed in as request
      *
@@ -102,6 +126,7 @@ class TagController extends Controller
 
     /**
      * Creates a new tag entity.
+     * @Security("is_granted('ROLE_LECTURER')")
      *
      * @Route("/new", name="tag_new")
      * @Method({"GET", "POST"})
@@ -137,11 +162,17 @@ class TagController extends Controller
         $tag = new Tag();
         $form = $this->createForm('AppBundle\Form\TagProposeType', $tag);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $authenticationUtils = $this->get('security.authentication_utils')->getLastUsername();
+        $user = $em->getRepository('AppBundle:User')->findByEmail($authenticationUtils);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $tag->setConfirmed(false);
             $tag->setNumVotes(0);
+            $tag->setOwnerId($user);
             $em->persist($tag);
             $em->flush($tag);
 
@@ -149,6 +180,35 @@ class TagController extends Controller
         }
 
         return $this->render('tag/propose.html.twig', array(
+            'tag' => $tag,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Creates a new tag entity.
+     *
+     * @Route("/personal", name="tag_personal")
+     * @Method({"GET", "POST"})
+     */
+    public function personalAction(Request $request)
+    {
+        $tag = new Tag();
+        $form = $this->createForm('AppBundle\Form\TagPersonalType', $tag);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $tag->setConfirmed(false);
+            $tag->setNumVotes(0);
+            $tag->setIsPrivate(true);
+            $em->persist($tag);
+            $em->flush($tag);
+
+            return $this->redirectToRoute('tag_show', array('id' => $tag->getId()));
+        }
+
+        return $this->render('tag/personal.html.twig', array(
             'tag' => $tag,
             'form' => $form->createView(),
         ));
@@ -173,6 +233,7 @@ class TagController extends Controller
      * Displays a form to edit an existing tag entity.
      *
      * @Route("/{id}/edit", name="tag_edit")
+     *
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Tag $tag)
@@ -219,7 +280,7 @@ class TagController extends Controller
 
     /**
      * Displays a form to edit an existing tag entity.
-     *
+     * @Security("is_granted('ROLE_LECTURER')")
      * @Route("/{id}/confirm", name="tag_confirm")
      * @Method({"GET", "POST"})
      */

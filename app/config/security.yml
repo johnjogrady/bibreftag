@@ -8,16 +8,18 @@ security:
             entity: { class: AppBundle\Entity\User, property: email }
     encoders:
         AppBundle\Entity\User: bcrypt
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER, ROLE_LECTURER]
+        ROLE_LECTURER: [ROLE_USER]
 
     #access_control:
     #    - {path: ^/admin, roles: ROLE_ADMIN}
-
-
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+            http_basic:
 
         main:
             anonymous: ~

@@ -23,6 +23,8 @@
             <tr>
                 <th>Id</th>
                 <th>Tagname</th>
+                <th>Private Tag?</th>
+                <th>Owned By</th>
                 <th>Confirmation Status</th>
                 <th>Last edited</th>
                 <th>Show</th>
@@ -38,6 +40,9 @@
             <tr>
                 <td><a href="{{ path('tag_show', { 'id': tag.id }) }}">{{ tag.id }}</a></td>
                 <td>{{ tag.tagName }}</td>
+                <td>{{ tag.isPrivate? 'Yes' : 'No' }}</td>
+                <td>{{ tag.OwnerId? tag.OwnerId : '' }}</td>
+
                 <td>{% if tag.confirmed %}
                     Confirmed
                     {% else %}
@@ -48,21 +53,19 @@
                 </td>
 
                 <td>
-                    <a href="{{ path('tag_show', { 'id': tag.id }) }}" class="btn btn-info btn-sm"
-                       role="button">show</a>
+                    <a href="{{ path('tag_show', { 'id': tag.id }) }}">show</a>
                 </td>
                 <td>
-                    <a href="{{ path('tag_edit', { 'id': tag.id }) }}" class="btn btn-info btn-sm"
-                       role="button">edit</a>
+                    <a href="{{ path('tag_edit', { 'id': tag.id }) }}" >edit</a>
                 </td>
                 <td>
                     Votes:{{ tag.numVotes }}
                 </td>
                 <td>
-                    <a href="{{ path('tag_upvote', { 'id': tag.id }) }}" class="glyphicon glyphicon glyphicon-ok"></a>
+                    <a href="{{ path('tag_upvote', { 'id': tag.id }) }}" class="glyphicon glyphicon glyphicon-ok">Upvote</a>
                 </td>
                 <td>
-                    <a href="{{ path('tag_downvote', { 'id': tag.id }) }}" class="glyphicon glyphicon glyphicon-remove"></a>
+                    <a href="{{ path('tag_downvote', { 'id': tag.id }) }}" class="glyphicon glyphicon glyphicon-remove">Downvote</a>
                 </td>
                 <td>
                     {% if tag.confirmed %}
@@ -90,6 +93,13 @@
             <a href="{{ path('tag_index') }}" class="btn btn-info btn-sm"
                role="button">View All Tags</a>
         </li>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+        <li>
+            <a href="{{ path('tag_personal') }}" class="btn btn-info btn-sm"
+               role="button">Add new Private Tag</a>
+        </li>
+        {% endif %}
 
     </ul>
 {% endblock %}

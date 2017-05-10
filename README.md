@@ -18,7 +18,8 @@
         	
 - can export BIB as a List of References Text File	
         - style 1 - Harvard	DONE
-        - style 2 - [1], [2], sequence	NOT DONE
+	
+        - style 2 - [1], [2], sequence	SECOND BIB FORMAT NOT DONE
         	
 - export as JSON (Advanced feature)	
         (suitable for Pandoc citations and references ...)	NOT DONE

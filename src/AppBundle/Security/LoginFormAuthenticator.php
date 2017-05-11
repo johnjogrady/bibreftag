@@ -100,7 +100,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         // on success, let the request continue
-        $targetPath='';
+        $targetPath='\bib';
         return new RedirectResponse($targetPath);
 
     }

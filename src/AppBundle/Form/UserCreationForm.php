@@ -23,7 +23,8 @@ class UserCreationForm extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('enabled', CheckboxType::class)
+            ->add('enabled', CheckboxType::class,array('required' => false))
+            ->add('isPrivate', CheckboxType::class,array('required' => false))
             ->add('userPic', 'file', array ('label'=>'profile Picture'))
 
             ->add('plainPassword', RepeatedType::class, [

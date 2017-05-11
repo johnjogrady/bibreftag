@@ -30,10 +30,11 @@
                 <a href="{{ path('approve_ref_index') }}" >Approve References</a>
             {% endif %}
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <a href="{{ path('security_logout') }}"></a>
-                <a class="btn btn-default btn">User:{{ app.user }}</a>
+
+                <a class="btn btn-default btn">Logged in as ::{{ app.user }}</a>
             <a href="{{ path('security_logout') }}" class="btn btn-primary" role="button">Logout</a>
-                <a href="{{ path('myref_index') }}" >My References</a>
+            <a href="{{ path('user_show', { 'id': app.user.id }) }}">My User Profile</a>
+            <a href="{{ path('myref_index') }}" >My References</a>
             <a href="{{ path('tag_my') }}" >My Tags</a>
             <a href="{{ path('bib_my') }}" >My Bibs</a>
 

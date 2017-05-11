@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -23,8 +24,9 @@ class UserEditForm extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('enabled', CheckboxType::class)
-            ->add('isPrivate', CheckboxType::class)
+            ->add('enabled', CheckboxType::class,array('required' => false))
+            ->add('isPrivate', CheckboxType::class,
+                array('required' => false))
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class
             ])
@@ -48,7 +50,6 @@ class UserEditForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\User',
-            'validation_groups'=>['Default','Registration']
         ]);
     }
 

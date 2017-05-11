@@ -166,13 +166,14 @@ class TagController extends Controller
 
         $authenticationUtils = $this->get('security.authentication_utils')->getLastUsername();
         $user = $em->getRepository('AppBundle:User')->findByEmail($authenticationUtils);
+        var_dump($user);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $tag->setConfirmed(false);
             $tag->setNumVotes(0);
-            $tag->setOwnerId($user);
+            $tag->setOwnerId($user->getId());
             $em->persist($tag);
             $em->flush($tag);
 

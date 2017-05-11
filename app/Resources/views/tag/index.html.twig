@@ -62,10 +62,10 @@
                     Votes:{{ tag.numVotes }}
                 </td>
                 <td>
-                    <a href="{{ path('tag_upvote', { 'id': tag.id }) }}" class="glyphicon glyphicon glyphicon-ok">Upvote</a>
+                    <a href="{{ path('tag_upvote', { 'id': tag.id }) }}">Upvote</a>
                 </td>
                 <td>
-                    <a href="{{ path('tag_downvote', { 'id': tag.id }) }}" class="glyphicon glyphicon glyphicon-remove">Downvote</a>
+                    <a href="{{ path('tag_downvote', { 'id': tag.id }) }}" >Downvote</a>
                 </td>
                 <td>
                     {% if tag.confirmed %}

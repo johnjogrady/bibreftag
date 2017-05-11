@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 
 /**
  * Author controller.
- *
+ * @Security("is_granted('ROLE_LECTURER')")
  * @Route("author")
  */
 class AuthorController extends Controller
